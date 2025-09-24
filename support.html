@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Vợt & Xác Minh Chủ Sở Hữu Bằng Bút Viết Kính | PaddleVerify</title>
+    <meta name="description" content="Hướng dẫn gửi vợt trực tuyến và xác minh chủ vợt: viết mã bằng bút viết kính lên cán, quay video đối chiếu khi nhận. Minh bạch – chống tráo.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.2s ease;
+        }
+        .toast {
+            animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="./images/logo-sp.png" class="w-[60px] rounded-lg" alt="">
+                <span class="font-bold text-3xl italic">KING SPIN</span>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <a href="tel:0877921111" class="hidden md:flex items-center text-green-600 hover:text-green-700">
+                    <i data-feather="phone" class="mr-2"></i> 0877921111
+                </a>
+                <a href="#form" class="hidden md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition">Bắt đầu</a>
+                <button class="md:hidden" id="mobile-menu-button">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Gửi vợt online. Xác minh chủ sở hữu bằng bút viết kính.</h1>
+                <p class="text-lg md:text-xl text-gray-600 mb-6">Viết mã lên cán vợt, chụp ảnh, gửi hàng. Xưởng đối chiếu mã + quay video bằng chứng trước khi thi công.</p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="check-circle" class="mr-1 w-4 h-4"></i> Chống tráo đổi
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="video" class="mr-1 w-4 h-4"></i> Bằng chứng video
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="eye" class="mr-1 w-4 h-4"></i> 100% minh bạch
+                    </span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#form" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium text-center transition">Tôi đã có bút - Bắt đầu</a>
+                    
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="http://static.photos/sport/640x360/1" alt="Cán vợt pickleball với mã số được viết bằng bút kính" class="rounded-2xl shadow-lg w-full max-w-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Verify Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Vì sao phải xác minh?</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="shield" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Chống tráo vợt</h3>
+                    <p class="text-gray-600">Mã số duy nhất ngăn chặn việc đánh tráo vợt trong quá trình vận chuyển và sửa chữa.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="key" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Bảo vệ quyền sở hữu</h3>
+                    <p class="text-gray-600">Xác nhận bạn là chủ sở hữu hợp pháp của vợt trước khi thực hiện bất kỳ dịch vụ nào.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="file-text" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Tránh tranh chấp bảo hành</h3>
+                    <p class="text-gray-600">Video bằng chứng giúp giải quyết mọi tranh chấp về tình trạng vợt khi nhận.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="camera" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Có video chứng minh độc lập</h3>
+                    <p class="text-gray-600">Quy trình được ghi hình minh bạch từ khi nhận đến khi trả vợt.</p>
+                </div>
+            </div>
+            <div class="mt-10 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                <div class="flex items-start">
+                    <i data-feather="alert-triangle" class="text-yellow-500 mr-2 mt-1"></i>
+                    <p class="text-yellow-800 font-medium">Không có chữ ký = không nhận vợt. Rõ ràng ngay từ đầu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You Need Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Bạn cần gì?</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="http://static.photos/office/640x360/1" alt="Bút viết kính trên bàn làm việc" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Bút viết kính</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Mực không lem, viết rõ trên cán vợt. Không chấp nhận bút dạ thường.</p>
+                    <a href="" class="mt-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-center transition">Mua bút</a>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="http://static.photos/technology/640x360/1" alt="Điện thoại đang quay phim cán vợt" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Điện thoại</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Chụp ảnh/clip mã vừa viết. Yêu cầu rõ nét, đủ ánh sáng.</p>
+                    <button class="mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Bạn đã có</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="http://static.photos/industry/640x360/1" alt="Vợt được đóng gói trong hộp carton" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Hộp + chống sốc</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Đóng gói nghiêm túc, niêm phong. Bảo vệ vợt trong quá trình vận chuyển.</p>
+                    <button class="mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium cursor-not-allowed">Tìm hộp</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Quy trình 6 bước</h2>
+            
+            <div class="relative">
+                <!-- Timeline line -->
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-green-200 top-0"></div>
+                
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+                    <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">1</div>
+                            <h3 class="text-xl font-bold">Tạo mã</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Viết tên hoặc chữ ký của bạn lên cán vợt bằng bút viết kính. Chữ ký phải rõ ràng và dễ nhận biết.</p>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-600">Ví dụ: "Nguyễn Văn A" hoặc chữ ký cá nhân của bạn.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 flex justify-center">
+                        <img src="http://static.photos/workspace/640x360/1" alt="Người đang viết mã số trên giấy" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+                    <div class="md:w-1/2 md:pr-12 order-2 md:order-1 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">2</div>
+                            <h3 class="text-xl font-bold">Viết mã lên cán vợt</h3>
+                        </div>
+                        <p class="text-gray-600">Dùng bút viết kính viết tên/chữ ký rõ ràng trên cán; không viết lên mặt vợt.</p>
+                        <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                            <p class="text-yellow-800">Không chấp nhận bút dạ thường. Chỉ bút viết kính.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 order-1 md:order-2 flex justify-center">
+                        <img src="http://static.photos/sport/640x360/2" alt="Cận cảnh tay đang viết mã số bằng bút kính lên cán vợt" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+                    <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">3</div>
+                            <h3 class="text-xl font-bold">Chụp ảnh & clip</h3>
+                        </div>
+                        <p class="text-gray-600 mb-2">Chụp 2–3 ảnh cận cảnh chữ ký + 1 clip 5–10s lia từ toàn cảnh tới cận chữ ký.</p>
+                        <ul class="text-gray-600 list-disc pl-5 space-y-1">
+                            <li>Ảnh rõ nét, đủ ánh sáng</li>
+                            <li>Clip quay toàn bộ cán vợt và chữ ký</li>
+                            <li>Lưu vào điện thoại trước khi gửi</li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 flex justify-center">
+                        <img src="http://static.photos/technology/640x360/2" alt="Điện thoại đang quay phim mã số trên cán vợt" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+                    <div class="md:w-1/2 md:pr-12 order-2 md:order-1 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">4</div>
+                            <h3 class="text-xl font-bold">Đóng gói & gửi</h3>
+                        </div>
+                        <p class="text-gray-600">Bọc chống sốc, hộp carton cứng, dán băng niêm phong. Ghi rõ tracking.</p>
+                        <div class="mt-4 bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
+                            <p class="text-red-800">Không đóng gói cẩn thận → Vợt hỏng trong vận chuyển → Chúng tôi không chịu trách nhiệm.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 order-1 md:order-2 flex justify-center">
+                        <img src="http://static.photos/industry/640x360/2" alt="Vợt được đóng gói cẩn thận trong hộp carton" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+                    <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">5</div>
+                            <h3 class="text-xl font-bold">Xưởng xác minh & quay video</h3>
+                        </div>
+                        <p class="text-gray-600">Khi vợt đến xưởng tại 5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội, chúng tôi sẽ đối chiếu mã, quay video mở hộp → cận mã → đối chiếu. Gửi link video cho bạn duyệt.</p>
+                        <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg">
+                            <p class="text-green-800">Video bằng chứng sẽ được gửi cho bạn qua Zalo/Email để xác nhận trước khi thi công.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 flex justify-center">
+                        <img src="http://static.photos/workspace/640x360/2" alt="Nhân viên đang kiểm tra mã số trên vợt và quay video" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+                
+                <!-- Step 6 -->
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2 md:pr-12 order-2 md:order-1 mb-6 md:mb-0">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">6</div>
+                            <h3 class="text-xl font-bold">Thi công & bàn giao</h3>
+                        </div>
+                        <p class="text-gray-600">Chỉ thi công sau khi bạn xác nhận video. Trả hàng kèm chữ ký (giữ/xoá theo yêu cầu).</p>
+                        <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                            <p class="text-blue-800">Bạn có thể yêu cầu xoá mã khi trả vợt bằng cách ghi chú trong form đăng ký.</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12 order-1 md:order-2 flex justify-center">
+                        <img src="http://static.photos/sport/640x360/3" alt="Vợt đã hoàn thiện với mã số vẫn còn trên cán" class="rounded-lg shadow-sm w-full max-w-md">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section id="form" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm">
+                <h2 class="text-2xl font-bold mb-6">Điền thông tin gửi vợt</h2>
+                
+                <form id="paddle-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Họ tên *</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">SĐT/Zalo *</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ trả hàng *</label>
+                        <input type="text" id="address" name="address" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Model vợt *</label>
+                            <input type="text" id="model" name="model" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label for="signature" class="block text-sm font-medium text-gray-700 mb-1">Chữ ký trên cán *</label>
+                            <input type="text" id="signature" name="signature" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Tên hoặc chữ ký của bạn">
+                            <p class="mt-1 text-sm text-gray-500">Viết rõ ràng bằng bút kính</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Link ảnh/clip</label>
+                        <p class="w-full px-4 py-2  focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-500 font-bold">Vui lòng liên hệ qua Zalo: <a class="hover:underline" href="https://zalo.me/0877921111" target="_blank" rel="noopener noreferrer">0877921111</a> hoặc Facebook Fanpage để gửi ảnh và video</p>
+                    </div>
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Tình trạng vợt</label>
+                        <textarea id="status" name="status" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Nếu rõ tình trạng vợt ở đây,..."></textarea>
+                        
+                    </div>
+                    
+                    <div>
+                        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
+                        <textarea id="notes" name="notes" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Yêu cầu đặc biệt, muốn xoá mã khi trả vợt,..."></textarea>
+                        <p class="mt-2 text-sm text-gray-500">Địa chỉ nhận vợt: <b>5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội</b></p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="consent" name="consent" type="checkbox" required class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                        </div>
+                        <label for="consent" class="ml-3 block text-sm text-gray-700">
+                            Tôi đồng ý quy trình xác minh & lưu trữ video bằng chứng. *
+                        </label>
+                    </div>
+                    
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
+                        <p class="text-red-800 font-medium">Lưu  ý quan trọng:</p>
+                        <ul class="list-disc pl-5 mt-2 text-red-800 space-y-1">
+                            <li>Chữ ký phải trùng trên cán và trong form</li>
+                            <li>Không trùng = từ chối nhận</li>
+                            <li>Không có ảnh/clip trước khi gửi = từ chối nhận</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
+                        <i data-feather="send" class="mr-2"></i> Gửi thông tin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Policy Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-6 text-center">Chính sách xác minh & bảo mật</h2>
+            
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="video" class="text-green-600 mr-2"></i> Video bằng chứng
+                    </h3>
+                    <p class="text-gray-600">Video chỉ phục vụ chứng minh quyền sở hữu, lưu 90 ngày, xoá theo yêu cầu hợp lệ.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="alert-octagon" class="text-red-600 mr-2"></i> Từ chối thi công
+                    </h3>
+                    <p class="text-gray-600">Chữ ký mờ/không đọc được = từ chối thi công cho đến khi xác minh lại.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="shield" class="text-blue-600 mr-2"></i> Bảo mật thông tin
+                    </h3>
+                    <p class="text-gray-600">Mọi thông tin cá nhân chỉ được sử dụng cho mục đích xác minh và sẽ không được chia sẻ với bên thứ ba.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-8 text-center">Câu hỏi thường gặp</h2>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Không có bút viết kính thì phải làm sao?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Bạn cần mua bút viết kính chuyên dụng. Có tại các quầy bán lẻ, tạp hóa hoặc các đại lý.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Có thể viết bằng bút dạ thường được không?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Không. Chỉ chấp nhận bút viết kính. Bút dạ thường dễ bị phai, lem trong quá trình vận chuyển.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Viết lên băng keo quấn cán có được không?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Chấp nhận nếu băng cố định, nhưng khuyến nghị viết trực tiếp lên cán vợt để đảm bảo độ bền của chữ ký.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Viết sai mã thì xử lý thế nào?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Nếu viết sai, gạch bỏ và viết lại chữ ký mới. Khai báo chữ ký cuối cùng trong form.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Muốn xoá mã khi trả hàng có được không?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Có, ghi rõ trong phần ghi chú. Chúng tôi sẽ xoá chữ ký trước khi trả vợt.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 6 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <button class="faq-toggle w-full flex justify-between items-center text-left" aria-expanded="false">
+                        <span class="font-medium">Không đồng  ý quy trình này thì sao?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content mt-4 hidden">
+                        <p class="text-gray-600">Chúng tôi sẽ không nhận vợt. Quy trình này là bắt buộc để đảm bảo quyền lợi cho cả hai bên.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warning Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-8 text-center">Cảnh báo minh bạch</h2>
+            
+            <div class="space-y-6">
+                <div class="flex items-start bg-red-50 p-4 rounded-lg">
+                    <i data-feather="x-circle" class="text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-red-800">Không có mã/ảnh/clip trước khi gửi</h3>
+                        <p class="text-red-800">= Từ chối nhận. Không ngoại lệ.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start bg-red-50 p-4 rounded-lg">
+                    <i data-feather="alert-triangle" class="text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-red-800">Chữ ký khác form khai báo</h3>
+                        <p class="text-red-800">= Nghi ngờ tráo đổi → Từ chối nhận vợt.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start bg-green-50 p-4 rounded-lg">
+                    <i data-feather="check-circle" class="text-green-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-green-800">Video mở hộp</h3>
+                        <p class="text-green-800">= Bằng chứng độc lập gửi cho bạn xác nhận.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Buy Marker Section -->
+    <!-- <section id="buy-marker" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="bg-white p-8 rounded-2xl shadow-sm">
+                <h2 class="text-2xl font-bold mb-6 text-center">Mua bút viết kính</h2>
+                
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/2">
+                        <img src="http://static.photos/office/640x360/3" alt="Bút viết kính chất lượng cao" class="rounded-lg w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-xl font-bold mb-3">Bút viết kính chuyên dụng</h3>
+                        <ul class="text-gray-600 mb-6 space-y-2">
+                            <li class="flex items-start">
+                                <i data-feather="check" class="text-green-500 mr-2 mt-1"></i>
+                                <span>Mực không phai, không lem khi va chạm</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="text-green-500 mr-2 mt-1"></i>
+                                <span>Đầu bút 1.0mm - viết rõ nét trên cán vợt</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="text-green-500 mr-2 mt-1"></i>
+                                <span>Dễ xoá bằng c cồn khi cần thiết</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-feather="check" class="text-green-500 mr-2 mt-1"></i>
+                                <span>Màu đen - dễ nhìn trên mọi màu cán vợt</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="mb-6">
+                            <span class="text-2xl font-bold text-green-600">50.000đ</span>
+                            <span class="text-gray-500 ml-2">/ cây</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <button class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition">
+                                <i data-feather="shopping-cart" class="mr-2"></i> Mua ngay
+                            </button>
+                            <button class="w-full border border-green-600 text-green-600 hover:bg-green-50 px-6 py-3 rounded-lg font-medium transition">
+                                <i data-feather="message-square" class="mr-2"></i> Chat h hỗ trợ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Final CTA -->
+    <section class="py-12 bg-green-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">Sẵn sàng gửi vợt?</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Quy trình minh bạch - Bằng chứng rõ ràng - Bảo vệ quyền lợi của bạn</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#form" class="bg-white hover:bg-gray-100 text-green-600 px-6 py-3 rounded-lg font-medium transition">Tạo mã & Điền form</a>
+                
+                <a href="https://zalo.me/0877921111" target="_blank" rel="noopener noreferrer" class="border border-white hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
+                    <i data-feather="message-square" class="mr-2"></i> Chat ngay để hỗ trợ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <img src="./images/logo-sp.png" class="w-[60px] rounded-lg" alt="">
+                        <span class="font-bold text-white text-3xl italic">KING SPIN</span>
+                    </div>
+                    <p class="mt-2 text-sm">Minh bạch - Chống tráo - Bảo vệ quyền lợi</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition">
+                        <i data-feather="facebook"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition">
+                        <i data-feather="instagram"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition">
+                        <i data-feather="youtube"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
+                <p class="mb-2">© 2023 PaddleVerify. Tất cả quyền được bảo lưu.</p>
+                <p>Địa chỉ xưởng: 5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chat Button -->
+    <a href="https://zalo.me/0877921111" target="_blank" rel="noopener noreferrer" id="chat-button" class="fixed bottom-6 right-6 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition">
+        <i data-feather="message-square"></i>
+    </a>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+        <div class="flex items-center">
+            <i data-feather="check-circle" class="mr-2"></i>
+            <span>Gửi thành công!</span>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // FAQ Accordion
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                
+                // Toggle content
+                content.classList.toggle('hidden');
+                button.setAttribute('aria-expanded', !isExpanded);
+                
+                // Rotate icon
+                const icon = button.querySelector('i');
+                icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+        });
+        
+        // // Form Submission
+        // document.getElementById('paddle-form').addEventListener('submit', function(e) {
+        //     e.preventDefault();
+            
+        //     // Show toast
+        //     const toast = document.getElementById('toast');
+        //     toast.classList.remove('hidden');
+            
+        //     // Hide toast after 3 seconds
+        //     setTimeout(() => {
+        //         toast.classList.add('hidden');
+        //     }, 3000);
+            
+        //     // Reset form
+        //     this.reset();
+        // });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            // Implement mobile menu functionality if needed
+            alert('Menu di động sẽ hiển thị tại đây');
+        });
+        
+        // Chat button click
+        document.getElementById('chat-button').addEventListener('click', function() {
+            alert('Chat hỗ trợ sẽ mở tại đây');
+        });
+    </script>
+    <script>
+  // Initialize Feather Icons
+  feather.replace();
+
+  // FAQ Accordion (giữ nguyên nếu bạn đã có)
+  document.querySelectorAll('.faq-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.nextElementSibling;
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      content.classList.toggle('hidden');
+      button.setAttribute('aria-expanded', !isExpanded);
+      const icon = button.querySelector('i');
+      icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  });
+
+  // ====== GỬI FORM LÊN GOOGLE SHEET ======
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYwCQErAcoFs4OkCBriJxs4xCcgB7jDNnrGoVm2VsaTRIn5c9V-dRfzkZ0XVUsiyjJ/exec';
+
+  const form = document.getElementById('paddle-form');
+  const toast = document.getElementById('toast');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  function showToast(msg = 'Gửi thành công!') {
+    toast.querySelector('span').textContent = msg;
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 3000);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Lấy dữ liệu
+    const data = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      address: form.address.value.trim(),
+      model: form.model.value.trim(),
+      signature: form.signature.value.trim(),
+    //   photos: form.photos.value.trim(),
+      status: form.status.value.trim(),
+      notes: form.notes.value.trim(),
+      consent: form.consent.checked,
+      
+    };
+
+    // Check tối thiểu – thẳng tay
+    if (!data.name || !data.phone || !data.address || !data.model || !data.signature || !data.status || !data.consent) {
+      showToast('Thiếu thông tin bắt buộc.');
+      return;
+    }
+
+    // Khoá nút gửi
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+  body: JSON.stringify(data)
+});
+const json = await res.json(); // giờ parse được bình thường
+
+      if (json?.success) {
+        showToast('Đã lưu vào thông tin khách hàng.');
+        form.reset();
+      } else {
+        showToast('Lỗi lưu dữ liệu. Kiểm tra Apps Script.');
+        console.error(json);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Lỗi mạng hoặc CORS. Kiểm tra cấu hình.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Mobile menu toggle demo
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    alert('Menu di động sẽ hiển thị tại đây');
+  });
+
+  // Chat button demo
+  document.getElementById('chat-button').addEventListener('click', function() {
+    alert('Chat hỗ trợ sẽ mở tại đây');
+  });
+</script>
+
+</body>
+</html>
