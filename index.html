@@ -651,12 +651,37 @@
       }
     }
   </style>
+  <style>
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94, 0.8); }
+  50% { box-shadow: 0 0 20px 5px rgba(34,197,94, 0.8); }
+}
+.pulse {
+  border-radius: 50%;
+  animation: pulseBorder 1.5s infinite;
+}
+</style>
   <link rel="icon" href="./images/logo-sp.png"
     sizes="32x32" />
 </head>
 
 <body
-  class="home wp-singular page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-13198 wp-theme-paritime theme-paritime woocommerce-no-js tribe-no-js full-width lte-color-scheme-default lte-body-white lte-background-white paceloader-disabled no-sidebar elementor-default elementor-kit-13200 elementor-page elementor-page-13198">
+  class="relative home wp-singular page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-13198 wp-theme-paritime theme-paritime woocommerce-no-js tribe-no-js full-width lte-color-scheme-default lte-body-white lte-background-white paceloader-disabled no-sidebar elementor-default elementor-kit-13200 elementor-page elementor-page-13198">
+  
+  <div
+  class="fixed z-[9999] right-5 bottom-5 elementor-element elementor-element-40341e8 elementor-widget elementor-widget-lte-button pulse"
+  data-id="40341e8" data-element_type="widget"
+  data-widget_type="lte-button.default">
+  <div class="elementor-widget-container">
+    <div class="lte-btn-wrap">
+      <a href="support.html" target="_blank" rel="noopener noreferrer"
+         class="!min-w-[160px] !rounded-full !w-[54px] lte-btn btn-lg btn-second color-hover-white">
+        <span class="lte-btn-inner"><span class=""></span>Đặt lịch ngay</span>
+      </a>
+    </div>
+  </div>
+</div>
+  
   <div class="lte-content-wrapper  lte-layout-transparent-full">
     <div
       class="lte-header-wrapper header-h1  header-parallax lte-header-overlay lte-layout-transparent-full lte-pageheader-disabled">
@@ -2141,7 +2166,7 @@
                                   data-id="5124099" data-element_type="widget" data-widget_type="image.default">
                                   <div class="elementor-widget-container h-full !flex justify-center items-center">
                                     <img loading="lazy" decoding="async" width="276" height="293"
-                                      src="./images/ball5.png"
+                                      src="./images/target.png"
                                       class="attachment-large size-large wp-image-20312" alt=""
                                     
                                       sizes="(max-width: 276px) 100vw, 276px" />
@@ -2218,10 +2243,10 @@
                                   class="elementor-element elementor-element-345c7b3 elementor-widget elementor-widget-image h-full"
                                   data-id="345c7b3" data-element_type="widget" data-widget_type="image.default">
                                   <div class="elementor-widget-container h-full !flex justify-center items-center">
-                                    <img loading="lazy" decoding="async" width="413" height="336"
-                                      src="https://paritime.like-themes.com/wp-content/uploads/2021/02/collection-03.jpg"
+                                    <img loading="lazy" decoding="async" width="276" height="293"
+                                      src="./images/target2.png"
                                       class="attachment-large size-large wp-image-20313" alt=""
-                                      srcset="https://paritime.like-themes.com/wp-content/uploads/2021/02/collection-03.jpg 413w, https://paritime.like-themes.com/wp-content/uploads/2021/02/collection-03-300x244.jpg 300w, https://paritime.like-themes.com/wp-content/uploads/2021/02/collection-03-100x81.jpg 100w"
+                                      
                                       sizes="(max-width: 413px) 100vw, 413px" />
                                   </div>
                                 </div>
@@ -3755,7 +3780,7 @@
               <div id="lte_icons-4" class="widget widget_lte_icons">
                 <ul class="lte-social-small ">
                   <li>
-                    <a href="#" class="!text-xl paritime_fa5_icons fab fa-facebook-f"></a>
+                    <a href="https://www.facebook.com/profile.php?id=61581062112966" target="_blank" rel="noopener noreferrer" class="!text-xl paritime_fa5_icons fab fa-facebook-f"></a>
                   </li>
                   <li>
                     <a href="#" class="!text-xl paritime_fa5_icons fab fa-twitter"></a>
@@ -3804,8 +3829,7 @@
       for (let j = 0; j < urlFields.length; j++) {
         urlFields[j].addEventListener('blur', maybePrefixUrlField)
       }
-    })();</script><a href="#" class="lte-go-top floating lte-go-top-icon"><span
-      class="go-top-icon-v2 icon icon-tennis-ball"></span><span class="go-top-header">GO TOP</span></a>
+    })();</script>
   <script> /* <![CDATA[ */var tribe_l10n_datatables = { "aria": { "sort_ascending": ": activate to sort column ascending", "sort_descending": ": activate to sort column descending" }, "length_menu": "Show _MENU_ entries", "empty_table": "No data available in table", "info": "Showing _START_ to _END_ of _TOTAL_ entries", "info_empty": "Showing 0 to 0 of 0 entries", "info_filtered": "(filtered from _MAX_ total entries)", "zero_records": "No matching records found", "search": "Search:", "all_selected_text": "All items on this page were selected. ", "select_all_link": "Select all pages", "clear_selection": "Clear Selection.", "pagination": { "all": "All", "next": "Next", "previous": "Previous" }, "select": { "rows": { "0": "", "_": ": Selected %d rows", "1": ": Selected 1 row" } }, "datepicker": { "dayNames": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "dayNamesShort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], "dayNamesMin": ["S", "M", "T", "W", "T", "F", "S"], "monthNames": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "monthNamesShort": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "monthNamesMin": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], "nextText": "Next", "prevText": "Prev", "currentText": "Today", "closeText": "Done", "today": "Today", "clear": "Clear" } };/* ]]> */ </script>
   <script>
     const lazyloadRunObserver = () => {

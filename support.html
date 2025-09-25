@@ -27,6 +27,49 @@
        
     </style>
 </head>
+<!-- Success Modal -->
+<div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+  <!-- backdrop -->
+  <div class="absolute inset-0 bg-black/60" data-close-modal></div>
+
+  <!-- dialog -->
+  <div role="dialog" aria-modal="true" aria-labelledby="success-title"
+       class="relative bg-white rounded-2xl p-6 w-[92vw] max-w-md shadow-xl">
+    <div class="flex items-start gap-3">
+      <div class="shrink-0 mt-1">
+        <!-- icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round"
+             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="grow">
+        <h3 id="success-title" class="text-xl font-bold">Đã lưu vào thông tin khách hàng</h3>
+        <p id="success-message" class="mt-1 text-gray-600">
+          Thông tin của bạn đã được ghi nhận. Chúng tôi sẽ liên hệ nếu cần bổ sung.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-3">
+      <button type="button" data-close-modal
+              class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700">
+        Đóng
+      </button>
+      
+    </div>
+
+    <!-- nút X -->
+    <button type="button" data-close-modal
+            class="absolute top-3 right-3 p-2 rounded-lg hover:bg-gray-100"
+            aria-label="Đóng">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <body class="bg-gray-50 text-gray-900 font-sans">
     <!-- Sticky Header -->
     <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -110,6 +153,34 @@
                     <p class="text-gray-600">Quy trình được chụp hình minh bạch từ khi nhận đến khi trả vợt.</p>
                 </div>
             </div>
+            <div class="relative w-full max-w-7xl mx-auto overflow-hidden rounded-xl mt-10">
+  <div class="relative w-full" style="aspect-ratio:16/9;">
+    <!-- IFRAME: đặt src sẵn, autoplay + mute, KHÔNG lazy -->
+    <iframe id="drive-video"
+      class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-200"
+      src="https://drive.google.com/file/d/1XKJuDb8k3bjvotO7f8j4dU3cNuKdhrhA/preview"
+      style="border:0;"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; web-share"
+      referrerpolicy="no-referrer-when-downgrade"
+      loading="eager"></iframe>
+
+    <!-- THUMBNAIL OVERLAY -->
+    <button id="video-cover" type="button" class="group relative w-full h-full cursor-pointer">
+      <img src="./images/final2.jpg" alt="Video thumbnail" class="w-full h-full object-cover">
+      <span class="absolute inset-0 flex items-center justify-center">
+        <span class="w-16 h-16 rounded-full bg-white/85 shadow-lg grid place-items-center group-active:scale-95 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </span>
+      </span>
+    </button>
+  </div>
+</div>
+
+
+
+
             <div class="mt-10 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
                 <div class="flex items-start">
                     <i data-feather="alert-triangle" class="text-yellow-500 mr-2 mt-1"></i>
@@ -117,6 +188,7 @@
                 </div>
             </div>
         </div>
+        
     </section>
 
     <!-- What You Need Section -->
@@ -125,19 +197,19 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Bạn cần gì?</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
-                    <img src="http://static.photos/office/640x360/1" alt="Bút viết kính trên bàn làm việc" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <img src="./images/sc2.jpg" alt="Bút viết kính trên bàn làm việc" class="w-full h-48 object-cover rounded-lg mb-4">
                     <h3 class="font-bold mb-2">Bút viết kính</h3>
                     <p class="text-gray-600 mb-4 flex-grow">Mực không lem, viết rõ trên cán vợt. Không chấp nhận bút dạ thường, có thể mua ở bất kì đâu tại các cửa hàng.</p>
                     <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Hãy mua bút</span>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
-                    <img src="http://static.photos/technology/640x360/1" alt="Điện thoại đang quay phim cán vợt" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <img src="./images/sc22.png" alt="Điện thoại đang quay phim cán vợt" class="w-full h-48 object-cover rounded-lg mb-4">
                     <h3 class="font-bold mb-2">Điện thoại</h3>
                     <p class="text-gray-600 mb-4 flex-grow">Chụp ảnh, chữ ký vừa viết. Yêu cầu rõ nét, đủ ánh sáng.</p>
                     <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Bạn đã có</span>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
-                    <img src="http://static.photos/industry/640x360/1" alt="Vợt được đóng gói trong hộp carton" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <img src="./images/sc3.jpg" alt="Vợt được đóng gói trong hộp carton" class="w-full h-48 object-cover rounded-lg mb-4">
                     <h3 class="font-bold mb-2">Hộp + chống sốc</h3>
                     <p class="text-gray-600 mb-4 flex-grow">Đóng gói nghiêm túc, niêm phong. Bảo vệ vợt trong quá trình vận chuyển.</p>
                     <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Tìm hộp</span>
@@ -228,7 +300,7 @@
           </div>
         </div>
         <div class="md:w-1/2 md:pl-12 flex justify-center">
-          <img src="./images/step4.png" alt="Nhân viên đang quay video xác minh sản phẩm" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+          <img src="./images/step5.png" alt="Nhân viên đang quay video xác minh sản phẩm" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
         </div>
       </div>
 
@@ -266,7 +338,7 @@
           </div>
         </div>
         <div class="md:w-1/2 md:pl-12  flex justify-center">
-          <img src="http://static.photos/sport/640x360/3" alt="Vợt sau khi hoàn thiện và bàn giao cho khách" class="rounded-lg shadow-sm w-full max-w-md">
+          <img src="./images/step6.png" alt="Vợt sau khi hoàn thiện và bàn giao cho khách" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
         </div>
       </div>
     </div>
@@ -343,9 +415,19 @@
                         </ul>
                     </div>
                     
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
-                        <i data-feather="send" class="mr-2"></i> Gửi thông tin
-                    </button>
+                    <button type="submit" id="submit-btn"
+  class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
+  <i id="submit-icon" data-feather="send" class="mr-2"></i>
+  <svg id="loading-icon" class="animate-spin mr-2 h-5 w-5 text-white hidden"
+       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10"
+            stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+  Gửi thông tin
+</button>
+
                 </form>
             </div>
         </div>
@@ -566,7 +648,7 @@
                     <p class="mt-2 text-sm">Minh bạch - Chống tráo - Bảo vệ quyền lợi</p>
                 </div>
                 <div class="flex space-x-6">
-                    <a href="#" class="hover:text-white transition">
+                    <a href="https://www.facebook.com/profile.php?id=61581062112966" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">
                         <i data-feather="facebook"></i>
                     </a>
                     <a href="#" class="hover:text-white transition">
@@ -673,11 +755,11 @@
             alert('Chat hỗ trợ sẽ mở tại đây');
         });
     </script>
-    <script>
+   <script>
   // Initialize Feather Icons
   feather.replace();
 
-  // FAQ Accordion (giữ nguyên nếu bạn đã có)
+  // ===== FAQ Accordion (giữ nguyên) =====
   document.querySelectorAll('.faq-toggle').forEach(button => {
     button.addEventListener('click', () => {
       const content = button.nextElementSibling;
@@ -685,7 +767,7 @@
       content.classList.toggle('hidden');
       button.setAttribute('aria-expanded', !isExpanded);
       const icon = button.querySelector('i');
-      icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+      if (icon) icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
     });
   });
 
@@ -693,52 +775,93 @@
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYwCQErAcoFs4OkCBriJxs4xCcgB7jDNnrGoVm2VsaTRIn5c9V-dRfzkZ0XVUsiyjJ/exec';
 
   const form = document.getElementById('paddle-form');
-  const toast = document.getElementById('toast');
+  const toast = document.getElementById('toast'); // vẫn giữ để báo lỗi
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  function showToast(msg = 'Gửi thành công!') {
-    toast.querySelector('span').textContent = msg;
+  // ===== Modal success =====
+  const modal = document.getElementById('success-modal');
+  const modalMsg = document.getElementById('success-message');
+
+  // ===== Icons trong nút =====
+  const submitIcon = document.getElementById('submit-icon');      // feather send
+  const loadingIcon = document.getElementById('loading-icon');    // spinner svg
+
+  function openSuccessModal(message = 'Đã lưu vào thông tin khách hàng.') {
+    if (!modal) return;
+    if (modalMsg) modalMsg.textContent = message;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.documentElement.classList.add('overflow-y-hidden'); // khoá scroll
+
+    const escHandler = (e) => { if (e.key === 'Escape') closeSuccessModal(); };
+    modal.dataset.escHandlerAttached = '1';
+    document.addEventListener('keydown', escHandler);
+    modal._escHandler = escHandler;
+  }
+
+  function closeSuccessModal() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.documentElement.classList.remove('overflow-y-hidden');
+    if (modal._escHandler) {
+      document.removeEventListener('keydown', modal._escHandler);
+      modal._escHandler = null;
+    }
+  }
+
+  // Click backdrop / các nút có data-close-modal để đóng
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('[data-close-modal]')) closeSuccessModal();
+    });
+  }
+
+  // Toast chỉ dùng cho lỗi
+  function showToast(msg = 'Có lỗi xảy ra') {
+    if (!toast) return;
+    const span = toast.querySelector('span') || toast;
+    span.textContent = msg;
     toast.classList.remove('hidden');
-    setTimeout(() => toast.classList.add('hidden'), 3000);
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.add('hidden'), 3000);
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Lấy dữ liệu
     const data = {
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
       address: form.address.value.trim(),
       model: form.model.value.trim(),
       signature: form.signature.value.trim(),
-    //   photos: form.photos.value.trim(),
       status: form.status.value.trim(),
       notes: form.notes.value.trim(),
       consent: form.consent.checked,
-      
     };
 
-    // Check tối thiểu – thẳng tay
     if (!data.name || !data.phone || !data.address || !data.model || !data.signature || !data.status || !data.consent) {
       showToast('Thiếu thông tin bắt buộc.');
       return;
     }
 
-    // Khoá nút gửi
+    // Khoá nút + bật spinner
     submitBtn.disabled = true;
     submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+    if (submitIcon) submitIcon.classList.add('hidden');
+    if (loadingIcon) loadingIcon.classList.remove('hidden');
 
     try {
       const res = await fetch(SCRIPT_URL, {
-  method: 'POST',
-  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-  body: JSON.stringify(data)
-});
-const json = await res.json(); // giờ parse được bình thường
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
 
       if (json?.success) {
-        showToast('Đã lưu vào thông tin khách hàng.');
+        openSuccessModal('Đã lưu vào thông tin khách hàng.');
         form.reset();
       } else {
         showToast('Lỗi lưu dữ liệu. Kiểm tra Apps Script.');
@@ -748,8 +871,11 @@ const json = await res.json(); // giờ parse được bình thường
       console.error(err);
       showToast('Lỗi mạng hoặc CORS. Kiểm tra cấu hình.');
     } finally {
+      // Trả nút về trạng thái ban đầu
       submitBtn.disabled = false;
       submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      if (submitIcon) submitIcon.classList.remove('hidden');
+      if (loadingIcon) loadingIcon.classList.add('hidden');
     }
   });
 
@@ -765,15 +891,29 @@ const json = await res.json(); // giờ parse được bình thường
   });
 
   // Mobile menu toggle demo
-  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+  document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
     alert('Menu di động sẽ hiển thị tại đây');
   });
 
   // Chat button demo
-  document.getElementById('chat-button').addEventListener('click', function() {
+  document.getElementById('chat-button')?.addEventListener('click', function() {
     alert('Chat hỗ trợ sẽ mở tại đây');
   });
 </script>
 
+<script>
+  const cover = document.getElementById('video-cover');
+  const iframe = document.getElementById('drive-video');
+
+  cover.addEventListener('click', () => {
+    // KHÔNG gán src nữa.
+    cover.classList.add('hidden');
+    iframe.classList.remove('pointer-events-none');
+    iframe.style.opacity = '1';
+  });
+</script>
+
+
 </body>
+
 </html>
