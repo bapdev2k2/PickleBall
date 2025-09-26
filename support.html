@@ -26,6 +26,56 @@
         }
        
     </style>
+    <style>
+  /* 0) Ổn định viewport (trừ bề rộng thanh cuộn để khỏi dôi 1–2px) */
+  :root { --vw: calc(100vw - (100vw - 100%)); }
+
+  html, body { margin:0; padding:0; width:100%; overflow-x: clip; }
+
+  /* 1) GỠ KHUNG CỐ ĐỊNH CỦA THEME */
+  body .lte-content-wrapper,
+  body .lte-content-wrapper.lte-layout-transparent-full,
+  body .lte-header-wrapper,
+  body #lte-nav-wrapper,
+  body .lte-navbar,
+  body .lte-text-page,
+  body .site,
+  body .content-area {
+    width: var(--vw) !important;
+    max-width: var(--vw) !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+  }
+
+  /* 2) Elementor/Container mặc định hay khóa 1140–1200–1440: gỡ hết */
+  .elementor,
+  .elementor-section.elementor-section-full_width,
+  .elementor .elementor-container {
+    width: var(--vw) !important;
+    max-width: var(--vw) !important;
+    margin: 0 auto !important;
+  }
+
+  /* 3) Bất kỳ .container nào của Bootstrap/Theme – bỏ max-width */
+  .container, .container-fluid {
+    width: var(--vw) !important;
+    max-width: var(--vw) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 4) Phần tử con hay gây tràn: hình/iframe/section có min-width */
+  img, video, iframe { max-width: 100% !important; height: auto; display: block; }
+  * { box-sizing: border-box; min-width: 0; }
+</style>
+<script>[...document.querySelectorAll('body *')].forEach(el => {
+  const r = el.getBoundingClientRect();
+  if (r.right > document.documentElement.clientWidth + 1) {
+    el.style.outline = '2px solid red';
+    console.log('Overflow →', el);
+  }
+});
+</script>
 </head>
 <!-- Success Modal -->
 <div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
