@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King Spin Offline</title>
+    <meta name="description" content="Hướng dẫn xác minh chủ vợt trực tiếp tại xưởng: ký bằng bút viết kính tại quầy, đối chiếu ngay trước mặt khách. Minh bạch – chống tráo.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="icon" href="./images/logo-sp.webp" sizes="32x32" />
+    <style>
+        [x-cloak] { display: none !important; }
+        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.2s ease; }
+        .toast { animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards; }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; } }
+    </style>
+
+    <!-- Dev helper: highlight overflow (giữ nguyên nếu bạn cần) -->
+    <script>[...document.querySelectorAll('body *')].forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.right > document.documentElement.clientWidth + 1) {
+        el.style.outline = '2px solid red';
+        console.log('Overflow →', el);
+      }
+    });</script>
+</head>
+
+<!-- Success Modal -->
+<div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+  <div class="absolute inset-0 bg-black/60" data-close-modal></div>
+  <div role="dialog" aria-modal="true" aria-labelledby="success-title"
+       class="relative bg-white rounded-2xl p-6 w-[92vw] max-w-md shadow-xl">
+    <div class="flex items-start gap-3">
+      <div class="shrink-0 mt-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round"
+             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="grow">
+        <h3 id="success-title" class="text-xl font-bold">Đã đặt lịch hẹn thành công</h3>
+        <p id="success-message" class="mt-1 text-gray-600">
+          Thông tin đã được ghi nhận. Chúng tôi sẽ liên hệ xác nhận khung giờ tiếp nhận tại xưởng.
+        </p>
+      </div>
+    </div>
+    <div class="mt-6 flex justify-end gap-3">
+      <button type="button" data-close-modal
+              class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700">Đóng</button>
+    </div>
+    <button type="button" data-close-modal
+            class="absolute top-3 right-3 p-2 rounded-lg hover:bg-gray-100" aria-label="Đóng">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<body class="bg-gray-50 text-gray-900 font-sans">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#top" class="flex items-center space-x-2">
+                <img src="./images/logo-sp.webp" class="w-[60px] rounded-lg" alt="">
+                <span class="font-bold text-3xl italic">KING SPIN</span>
+            </a>
+            <div class="flex space-x-4 items-center">
+                <a href="tel:0877921111" class="hidden md:flex items-center text-green-600 hover:text-green-700 italic text-xl font-bold">
+                    <i data-feather="phone" class="mr-2"></i> 0877921111
+                </a>
+                <a href="#form" class="hidden md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition">Đặt lịch mang vợt</a>
+                <button class="md:hidden" id="mobile-menu-button">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="top" class="bg-gradient-to-b from-white to-gray-50 scroll-mt-24 md:scroll-mt-28">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 py-12 md:py-20">
+                <h1 class="text-3xl md:text-4xl lg:text-6xl font-bold mb-4">Quy trình tiếp nhận vợt Offline</h1>
+                <p class="text-lg md:text-2xl font-bold text-gray-600 mb-4">Xác minh chủ sở hữu trực tiếp tại xưởng bằng bút viết kính</p>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="check-circle" class="mr-1 w-4 h-4"></i> Chống tráo đổi tại chỗ
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="camera" class="mr-1 w-4 h-4"></i> Đối chiếu trước mặt khách
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center">
+                        <i data-feather="eye" class="mr-1 w-4 h-4"></i> 100% minh bạch
+                    </span>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#support" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium text-center transition">Hướng dẫn mang vợt – Bắt đầu</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center pt-12 md:pt-14">
+                <img src="./images/main2.png" alt="Cán vợt có chữ ký bằng bút kính tại quầy" class="w-full max-w-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Verify -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Vì sao xác minh tại chỗ?</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="shield" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Chống tráo vợt</h3>
+                    <p class="text-gray-600">Chữ ký duy nhất – đối chiếu ngay khi tiếp nhận, loại trừ rủi ro.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="key" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Bảo vệ quyền sở hữu</h3>
+                    <p class="text-gray-600">Xác nhận bạn là chủ sở hữu hợp pháp trước khi thi công.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="file-text" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Giảm tranh chấp</h3>
+                    <p class="text-gray-600">Ảnh bằng chứng tại chỗ giúp rõ ràng tình trạng ban đầu.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i data-feather="camera" class="text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Ảnh chứng minh độc lập</h3>
+                    <p class="text-gray-600">Quay/chụp trước–sau thi công, gửi lại cho bạn.</p>
+                </div>
+            </div>
+
+            <!-- Video giữ nguyên cơ chế, chỉ đổi alt/ý nghĩa -->
+            <div class="relative w-full max-w-7xl mx-auto overflow-hidden rounded-xl mt-10">
+              <div class="relative w-full h-full" style="aspect-ratio:16/9;">
+                <iframe id="drive-video"
+                  class="absolute inset-0 w-full h-full opacity-0 pointer-events-none transition-opacity duration-200"
+                  src="https://drive.google.com/file/d/1XKJuDb8k3bjvotO7f8j4dU3cNuKdhrhA/preview"
+                  style="border:0;"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; web-share"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  loading="eager"></iframe>
+
+                <button id="video-cover" type="button" class="group relative w-full h-full cursor-pointer">
+                  <img src="./images/final2.webp" alt="Quy trình xác minh tại quầy" class="w-full h-full object-cover">
+                  <span class="absolute inset-0 flex items-center justify-center">
+                    <span class="w-16 h-16 rounded-full bg-white/85 shadow-lg grid place-items-center group-active:scale-95 transition">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-10 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                <div class="flex items-start">
+                    <i data-feather="alert-triangle" class="text-yellow-500 mr-2 mt-1"></i>
+                    <p class="text-yellow-800 font-medium">Không đồng ý ký xác minh tại chỗ = không tiếp nhận. Rõ ràng ngay từ đầu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You Need -->
+    <section id="support" class="py-12 bg-gray-50 scroll-mt-24 md:scroll-mt-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Bạn cần gì khi đến xưởng?</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="./images/sc2.webp" alt="Bút viết kính tại quầy" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Bút viết kính</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Có sẵn tại quầy. Chúng tôi chuẩn bị bút viết kính để bạn ký trực tiếp lên cán/cạnh vợt.</p>
+                    <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Không cần mua trước</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="./images/sc22.webp" alt="Điện thoại quay đối chiếu" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Điện thoại (tùy chọn)</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Bạn có thể tự quay lại quá trình đối chiếu để lưu thêm bằng chứng.</p>
+                    <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Khuyến nghị</span>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex flex-col">
+                    <img src="./images/sc3.webp" alt="Mang vợt tới xưởng" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="font-bold mb-2">Mang vợt tới xưởng</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">Đến trực tiếp địa chỉ bên dưới, không cần đóng gói vận chuyển.</p>
+                    <span class="text-center select-none mt-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Đến đúng giờ hẹn</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process: 6 bước Offline -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Quy trình 6 bước (Offline tại xưởng)</h2>
+
+        <div class="relative">
+          <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-green-200 top-0"></div>
+
+          <!-- 1: Check-in & ký -->
+          <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">1</div>
+                <h3 class="text-xl font-bold">Check-in & ký xác minh</h3>
+              </div>
+              <p class="text-gray-600 mb-4">
+                Tại quầy, dùng <strong>bút viết kính</strong> ký tên hoặc ký hiệu cá nhân lên <strong>cán/cạnh vợt</strong>. Chữ ký phải rõ ràng, dễ nhận biết.
+              </p>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <p class="text-gray-600">Ví dụ: “Nguyễn Văn A” hoặc chữ ký viết tắt quen thuộc.</p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+              <img src="./images/step1.webp" alt="Ký xác minh tại quầy" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+
+          <!-- 2: Chụp ảnh bằng chứng -->
+          <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">2</div>
+                <h3 class="text-xl font-bold">Chụp hình chữ ký tại chỗ</h3>
+              </div>
+              <p class="text-gray-600">
+                Nhân viên chụp lại chữ ký và tình trạng vợt trước thi công. Bạn có thể tự quay/chụp thêm để lưu trữ.
+              </p>
+              <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                <p class="text-yellow-800">Ảnh phải đủ sáng, không mờ nhòe để đảm bảo đối chiếu.</p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+              <img src="./images/step2.webp" alt="Chụp ảnh chữ ký tại xưởng" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+
+          <!-- 3: Kiểm tra & tư vấn -->
+          <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">3</div>
+                <h3 class="text-xl font-bold">Kiểm tra & tư vấn phương án</h3>
+              </div>
+              <p class="text-gray-600 mb-4">
+                Kỹ thuật kiểm tra thực tế, ghi nhận yêu cầu, tư vấn giải pháp phù hợp và thời gian thực hiện.
+              </p>
+              <div class="bg-gray-50 p-4 rounded-lg">
+                <p class="text-gray-600">Địa chỉ xưởng: <strong>5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội</strong></p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+              <img src="./images/step3.webp" alt="Kiểm tra và tư vấn trực tiếp" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+
+          <!-- 4: Báo giá & xác nhận -->
+          <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+            <div class="md:w-1/2 md:pr-12  mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">4</div>
+                <h3 class="text-xl font-bold">Báo giá & xác nhận thi công</h3>
+              </div>
+              <p class="text-gray-600">
+                Chúng tôi báo giá rõ ràng, ghi nhận tình trạng và chữ ký. Bạn xác nhận trước khi thi công.
+              </p>
+              <div class="mt-4 bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg">
+                <p class="text-green-800">Biên nhận/phiếu yêu cầu được lập ngay tại quầy.</p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+              <img src="./images/step5.webp" alt="Xác nhận thi công tại chỗ" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+
+          <!-- 5: Thanh toán -->
+          <div class="flex flex-col md:flex-row mb-12 md:mb-16">
+            <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">5</div>
+                <h3 class="text-xl font-bold">Thanh toán</h3>
+              </div>
+              <p class="text-gray-600">
+                Thanh toán theo báo giá đã xác nhận. Hỗ trợ nhiều hình thức tại quầy.
+              </p>
+              <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                <p class="text-blue-800">Có xuất hóa đơn theo yêu cầu.</p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12 flex justify-center">
+              <img src="./images/step4.webp" alt="Thanh toán tại quầy" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+
+          <!-- 6: Thi công & bàn giao -->
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2 md:pr-12  mb-6 md:mb-0">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold mr-3">6</div>
+                <h3 class="text-xl font-bold">Thi công & bàn giao tại xưởng</h3>
+              </div>
+              <p class="text-gray-600">
+                Thi công theo hẹn. Bàn giao kèm ảnh xác minh sau thi công. Bạn kiểm tra – ký nhận và mang vợt về.
+              </p>
+              <div class="mt-4 bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                <p class="text-purple-800">Có thể đặt lịch lấy trong ngày hoặc hẹn ngày khác.</p>
+              </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12  flex justify-center">
+              <img src="./images/step6.webp" alt="Bàn giao tại xưởng" class="rounded-lg shadow-sm w-full max-w-md object-cover h-[252px]">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form: Đặt lịch mang vợt -->
+    <!-- <section id="form" class="py-12 bg-gray-50 scroll-mt-24 md:scroll-mt-20">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm">
+                <h2 class="text-2xl font-bold mb-6">Đặt lịch mang vợt tới xưởng</h2>
+
+                <form id="paddle-form" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Họ tên *</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">SĐT/Zalo *</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="model" class="block text-sm font-medium text-gray-700 mb-1">Model vợt *</label>
+                            <input type="text" id="model" name="model" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        </div>
+                        <div>
+                            <label for="appointment" class="block text-sm font-medium text-gray-700 mb-1">Thời gian dự kiến đến *</label>
+                            <input type="datetime-local" id="appointment" name="appointment" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <p class="mt-1 text-sm text-gray-500">Giờ làm việc: 9:00–18:00 (T2–T7)</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="signature" class="block text-sm font-medium text-gray-700 mb-1">Cách ký xác minh *</label>
+                            <input type="text" id="signature" name="signature" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Tên/Chữ ký bạn sẽ ký tại quầy">
+                            <p class="mt-1 text-sm text-gray-500">Sẽ ký trực tiếp tại quầy bằng bút viết kính.</p>
+                        </div>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Tình trạng vợt *</label>
+                            <textarea id="status" name="status" rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Mô tả nhanh tình trạng/nhu cầu..."></textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Ghi chú</label>
+                        <textarea id="notes" name="notes" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Yêu cầu thêm (nếu có)..."></textarea>
+                        <p class="mt-2 text-sm text-gray-500">Xưởng: <b>5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội</b></p>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="consent" name="consent" type="checkbox" required class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500 cursor-pointer">
+                        </div>
+                        <label for="consent" class="ml-3 block text-sm text-gray-700">
+                            Tôi đồng ý quy trình xác minh tại chỗ & lưu trữ hình ảnh bằng chứng. *
+                        </label>
+                    </div>
+
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
+                        <p class="text-red-800 font-medium">Lưu ý quan trọng:</p>
+                        <ul class="list-disc pl-5 mt-2 text-red-800 space-y-1">
+                            <li>Bắt buộc ký xác minh tại quầy</li>
+                            <li>Không ký/không đồng ý ghi nhận bằng chứng = từ chối tiếp nhận</li>
+                            <li>Ảnh/clip bằng chứng sẽ được cung cấp sau khi tiếp nhận và sau thi công</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" id="submit-btn"
+                      class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
+                      <i id="submit-icon" data-feather="send" class="mr-2"></i>
+                      <svg id="loading-icon" class="animate-spin mr-2 h-5 w-5 text-white hidden"
+                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                      </svg>
+                      Gửi đăng ký lịch hẹn
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Policy -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-6 text-center">Chính sách xác minh & bảo mật (Offline)</h2>
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="camera" class="text-green-600 mr-2"></i> Hình ảnh bằng chứng
+                    </h3>
+                    <p class="text-gray-600">Ảnh/clip chỉ phục vụ chứng minh quyền sở hữu, lưu tối đa 90 ngày, xoá theo yêu cầu hợp lệ.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="alert-octagon" class="text-red-600 mr-2"></i> Từ chối tiếp nhận
+                    </h3>
+                    <p class="text-gray-600">Không ký xác minh hoặc chữ ký không đọc được = từ chối tiếp nhận/thi công cho tới khi xác minh lại.</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <h3 class="font-bold mb-3 flex items-center">
+                        <i data-feather="shield" class="text-blue-600 mr-2"></i> Bảo mật thông tin
+                    </h3>
+                    <p class="text-gray-600">Thông tin cá nhân chỉ dùng cho xác minh, không chia sẻ bên thứ ba.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-8 text-center">Câu hỏi thường gặp (Offline)</h2>
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm">
+                    <button class="faq-toggle p-6 w-full flex justify-between items-center text-left cursor-pointer" aria-expanded="false">
+                        <span class="font-medium">Quên mang bút viết kính thì sao?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content pb-4 pl-8 hidden">
+                        <p class="text-gray-600">● Tại quầy có sẵn bút viết kính. Bạn chỉ cần ký tại chỗ.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm">
+                    <button class="faq-toggle p-6 w-full flex justify-between items-center text-left cursor-pointer" aria-expanded="false">
+                        <span class="font-medium">Có thể ký lên băng quấn cán không?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content pb-4 pl-8 hidden">
+                        <p class="text-gray-600">● Chấp nhận nếu băng cố định; khuyến nghị ký trực tiếp lên cán/cạnh vợt để bền hơn.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm">
+                    <button class="faq-toggle p-6 w-full flex justify-between items-center text-left cursor-pointer" aria-expanded="false">
+                        <span class="font-medium">Không đồng ý ký xác minh tại chỗ?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content pb-4 pl-8 hidden">
+                        <p class="text-gray-600">● Xin lỗi, chúng tôi không tiếp nhận. Quy trình này bắt buộc để bảo vệ quyền lợi đôi bên.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm">
+                    <button class="faq-toggle p-6 w-full flex justify-between items-center text-left cursor-pointer" aria-expanded="false">
+                        <span class="font-medium">Có thể lấy trong ngày không?</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="faq-content pb-4 pl-8 hidden">
+                        <p class="text-gray-600">● Tùy hạng mục và lượng việc. Nhân viên sẽ báo thời gian cụ thể sau khi kiểm tra thực tế.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warning -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-2xl font-bold mb-8 text-center">Cảnh báo minh bạch</h2>
+            <div class="space-y-6">
+                <div class="flex items-start bg-red-50 p-4 rounded-lg">
+                    <i data-feather="x-circle" class="text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-red-800">Không ký xác minh tại chỗ</h3>
+                        <p class="text-red-800">= Từ chối tiếp nhận. Không ngoại lệ.</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-red-50 p-4 rounded-lg">
+                    <i data-feather="alert-triangle" class="text-red-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-red-800">Chữ ký khác xác nhận</h3>
+                        <p class="text-red-800">= Nghi ngờ tráo đổi → Tạm dừng thi công tới khi xác minh lại.</p>
+                    </div>
+                </div>
+                <div class="flex items-start bg-green-50 p-4 rounded-lg">
+                    <i data-feather="check-circle" class="text-green-500 mr-3 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-green-800">Ảnh/clip tại chỗ</h3>
+                        <p class="text-green-800">= Bằng chứng độc lập gửi lại cho bạn sau tiếp nhận và sau thi công.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-12 bg-green-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">Sẵn sàng mang vợt tới xưởng?</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Tiếp nhận tại chỗ – Đối chiếu trước mặt – Minh bạch tuyệt đối</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#form" class="bg-white hover:bg-gray-100 text-green-600 px-6 py-3 rounded-lg font-medium transition">Đặt lịch mang vợt</a>
+                <a href="https://zalo.me/0877921111" target="_blank" rel="noopener noreferrer" class="border border-white hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition flex items-center justify-center">
+                    <i data-feather="message-square" class="mr-2"></i> Chat để xác nhận giờ
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="mb-6 md:mb-0">
+                    <a href="#top" class="flex items-center space-x-2">
+                        <img src="./images/logo-sp.webp" class="w-[60px] rounded-lg" alt="">
+                        <span class="font-bold text-white text-3xl italic">KING SPIN</span>
+                    </a>
+                    <p class="mt-2 text-sm">Minh bạch - Chống tráo - Bảo vệ quyền lợi</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://www.facebook.com/profile.php?id=61581062112966" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">
+                        <i data-feather="facebook"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition">
+                        <i data-feather="instagram"></i>
+                    </a>
+                    <a href="#" class="hover:text-white transition">
+                        <i data-feather="youtube"></i>
+                    </a>
+                </div>
+                <div>
+                    <iframe class="rounded-xl" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5226439031226!2d105.86269047596947!3d21.011763788360646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abf9f63fefbd%3A0x1f01c0b87bce2384!2zNSBCNCDEkOG6p20gVHLhuqV1LCBURFAgc-G7kSAxNUMrVERQLCBIYWkgQsOgIFRyxrBuZywgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1758701443282!5m2!1svi!2s" width="400" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-base text-center">
+                <p>Địa chỉ xưởng: 5B4 Đầm Trấu, Bạch Đằng, Hai Bà Trưng, Hà Nội</p>
+                <p>Hotline: 0877921111</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chat Button -->
+    <a href="https://zalo.me/0877921111" target="_blank" rel="noopener noreferrer" id="chat-button" class="fixed bottom-6 right-6 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition">
+        <i data-feather="message-square"></i>
+    </a>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hidden">
+        <div class="flex items-center">
+            <i data-feather="check-circle" class="mr-2"></i>
+            <span>Gửi thành công!</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      // Feather
+      feather.replace();
+
+      // FAQ Accordion
+      document.querySelectorAll('.faq-toggle').forEach(button => {
+        button.addEventListener('click', () => {
+          const content = button.nextElementSibling;
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          content.classList.toggle('hidden');
+          button.setAttribute('aria-expanded', String(!isExpanded));
+          const icon = button.querySelector('svg.feather, [data-feather]');
+          if (icon && icon.style) {
+            icon.style.transition = 'transform .2s ease';
+            icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+          }
+        });
+      });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // Mobile menu demo
+      document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+        alert('Menu di động sẽ hiển thị tại đây');
+      });
+
+      // Chat button demo
+      document.getElementById('chat-button')?.addEventListener('click', function() {
+        alert('Chat hỗ trợ sẽ mở tại đây');
+      });
+    </script>
+
+    <!-- Submit to Google Apps Script -->
+    <script>
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYwCQErAcoFs4OkCBriJxs4xCcgB7jDNnrGoVm2VsaTRIn5c9V-dRfzkZ0XVUsiyjJ/exec';
+
+      const form = document.getElementById('paddle-form');
+      const toast = document.getElementById('toast');
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      const modal = document.getElementById('success-modal');
+      const modalMsg = document.getElementById('success-message');
+      const submitIcon = document.getElementById('submit-icon');
+      const loadingIcon = document.getElementById('loading-icon');
+
+      function openSuccessModal(message = 'Đã đặt lịch hẹn.') {
+        if (!modal) return;
+        if (modalMsg) modalMsg.textContent = message;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.documentElement.classList.add('overflow-y-hidden');
+        const escHandler = (e) => { if (e.key === 'Escape') closeSuccessModal(); };
+        modal.dataset.escHandlerAttached = '1';
+        document.addEventListener('keydown', escHandler);
+        modal._escHandler = escHandler;
+      }
+      function closeSuccessModal() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.documentElement.classList.remove('overflow-y-hidden');
+        if (modal._escHandler) { document.removeEventListener('keydown', modal._escHandler); modal._escHandler = null; }
+      }
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target.matches('[data-close-modal]')) closeSuccessModal();
+        });
+      }
+
+      function showToast(msg = 'Có lỗi xảy ra') {
+        if (!toast) return;
+        const span = toast.querySelector('span') || toast;
+        span.textContent = msg;
+        toast.classList.remove('hidden');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => toast.classList.add('hidden'), 3000);
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+          name: form.name.value.trim(),
+          phone: form.phone.value.trim(),
+          model: form.model.value.trim(),
+          appointment: form.appointment.value,
+          signature: form.signature.value.trim(),
+          status: form.status.value.trim(),
+          notes: form.notes.value.trim(),
+          consent: form.consent.checked,
+          channel: 'offline' // flag phân biệt
+        };
+
+        if (!data.name || !data.phone || !data.model || !data.appointment || !data.signature || !data.status || !data.consent) {
+          showToast('Thiếu thông tin bắt buộc.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        if (submitIcon) submitIcon.classList.add('hidden');
+        if (loadingIcon) loadingIcon.classList.remove('hidden');
+
+        try {
+          const res = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(data)
+          });
+          const json = await res.json();
+
+          if (json?.success) {
+            openSuccessModal('Đã đặt lịch hẹn. Vui lòng tới đúng giờ để tiếp nhận nhanh.');
+            form.reset();
+          } else {
+            showToast('Lỗi lưu dữ liệu. Kiểm tra Apps Script.');
+            console.error(json);
+          }
+        } catch (err) {
+          console.error(err);
+          showToast('Lỗi mạng hoặc CORS. Kiểm tra cấu hình.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          if (submitIcon) submitIcon.classList.remove('hidden');
+          if (loadingIcon) loadingIcon.classList.add('hidden');
+        }
+      });
+
+      // Video thumb → hiển thị iframe
+      const cover = document.getElementById('video-cover');
+      const iframe = document.getElementById('drive-video');
+      cover?.addEventListener('click', () => {
+        cover.classList.add('hidden');
+        iframe.classList.remove('pointer-events-none');
+        iframe.style.opacity = '1';
+      });
+    </script>
+</body>
+</html>
